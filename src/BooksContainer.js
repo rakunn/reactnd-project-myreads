@@ -9,7 +9,7 @@ class BooksContainer extends Component {
   };
 
   findUniqueBookShelves = (booksProp) => {
-    return [...new Set(booksProp.map(book => book.shelf))];
+    return [...new Set(booksProp.map(book => book.shelf))].sort();
   };
 
   filterBooks = (books, shelf) => {
@@ -23,15 +23,14 @@ class BooksContainer extends Component {
     return (
       <div className="list-books">
 
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
+        <h1 className="list-books-title">MyReads</h1>
 
         { uniqueBookshelves.map(name => (
           <Bookshelf
             key={name}
             bookshelf={name}
             books={this.filterBooks(books, name)}
+            updateShelf = {this.props.updateShelf }
           />
         ))}
 

@@ -17,13 +17,32 @@ class BooksApp extends React.Component {
       });
   }
 
+  findBook(state, id) {
+    return state.books.find(book => book.id === id);
+  }
+
+  updateShelf = (id, shelf) => {
+    this.setState(prevState => {
+      this.findBook(prevState, id).shelf = shelf;
+      return prevState;
+    })
+  };
+
   render() {
     const { books } = this.state;
     return (
       <Router>
         <div className="app">
-          <Route path="/" exact render={() =>( <BooksContainer books={books} /> )} />
+
+          <Route path="/" exact render={() => (
+            <BooksContainer
+              updateShelf = {this.updateShelf}
+              books={books}
+            /> )}
+          />
+
           <Route path="/search" component={Search} />
+
         </div>
       </Router>
     );

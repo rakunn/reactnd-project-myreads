@@ -1,10 +1,10 @@
 import React from 'react';
 
-const BookshelfChanger = () => {
+const BookshelfChanger = ({book, updateShelf }) => {
   return (
     <div className="book-shelf-changer">
-      <select>
-        <option value="move" disabled>Move to...</option>
+      <select onChange={(evt)=>updateShelf(book.id, evt.target.value)}>
+        <option value="move" disabled selected>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
         <option value="read">Read</option>
