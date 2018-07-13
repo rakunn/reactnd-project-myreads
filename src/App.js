@@ -13,16 +13,16 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll()
       .then(books => {
-        this.setState({ books })
-        console.log(this.state)
+        this.setState({ books });
       });
   }
 
   render() {
+    const { books } = this.state;
     return (
       <Router>
         <div className="app">
-          <Route path="/" exact books={ this.state.books } render={(props) => <BooksContainer { ...props } /> } />
+          <Route path="/" exact render={() =>( <BooksContainer books={books} /> )} />
           <Route path="/search" component={Search} />
         </div>
       </Router>
