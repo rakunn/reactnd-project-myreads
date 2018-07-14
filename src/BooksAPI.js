@@ -35,14 +35,21 @@ export const update = (book, shelf) =>
   })
     .then(res => res.json());
 
-export const search = (query) =>
-  fetch(`${api}/search`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query })
-  })
-    .then(res => res.json())
-    .then(data => data.books);
+export const search = (query) => {
+  if (query.length > 0) { //let's fix the API and provide handling for empty strings
+    return fetch(`${api}/search`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query })
+    })
+      .then(res => res.json())
+      .then(data => data.books);
+  } else {
+    return new Promise((res) => res({error: 'empty query'}));
+  }
+};
+
+

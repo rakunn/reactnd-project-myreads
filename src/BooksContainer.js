@@ -27,8 +27,6 @@ class BooksContainer extends Component {
     return (
       <div className="list-books">
 
-        <h1 className="list-books-title">MyReads</h1>
-
         { uniqueBookshelves.map(name => (
           <Bookshelf
             key={name}

@@ -2,7 +2,7 @@ import React from 'react';
 import Search from './Search';
 import BooksContainer from './BooksContainer';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import * as BooksAPI from './BooksAPI';
+import { getAll, update } from './BooksAPI';
 import './App.css';
 
 class BooksApp extends React.Component {
@@ -11,7 +11,7 @@ class BooksApp extends React.Component {
   };
 
   componentDidMount() {
-    BooksAPI.getAll()
+    getAll()
       .then(books => this.setState({ books }))
       .catch(err => console.log(err));
   }
@@ -21,7 +21,7 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf)
+    update(book, shelf)
       .then(data => {
         this.setState(prevState => {
           let newState = {...prevState};
@@ -47,17 +47,19 @@ class BooksApp extends React.Component {
       <Router>
         <div className="app">
 
+          <h1 className="list-books-title">MyReads</h1>
+
           <Route path="/" exact render={() => (
             <BooksContainer
               updateShelf = {this.updateShelf}
-              books={books}
+              books       = {books}
             /> )}
           />
 
           <Route path="/search" render={() => (
             <Search
               updateShelf = {this.updateShelf}
-              books={books}
+              books       = {books}
             />
           )} />
 

@@ -8,15 +8,21 @@ class Search extends Component {
     foundBooks: []
   };
 
-  handleSubmit = (event) => {
+  handleChange = (event) => {
     event.preventDefault();
 
-    search(event.target.value)
-      .then(foundBooks => {
-        const shelvedBooks  = this.props.books;
-        const mergedBooks   = this.mergeBooks(shelvedBooks, foundBooks);
+    const query = event.target.value;
 
-        this.setState({foundBooks: mergedBooks})})
+    search(query)
+      .then(foundBooks => {
+        if (!foundBooks.error) { //checking if query returns error property
+          const shelvedBooks  = this.props.books;
+          const mergedBooks   = this.mergeBooks(shelvedBooks, foundBooks);
+
+          this.setState({foundBooks: mergedBooks})
+        } else {
+          this.setState({foundBooks: []})
+        }})
       .catch(err => console.log(err));
   };
 
@@ -46,8 +52,7 @@ class Search extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-            <input onChange={this.handleSubmit} type="text" placeholder="Search by title or author"/>
-
+            <input onChange={this.handleChange} type="text" placeholder="Search by title or author"/>
           </div>
         </div>
         <div className="search-books-results">
