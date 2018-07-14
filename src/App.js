@@ -15,17 +15,26 @@ class BooksApp extends React.Component {
       .then(books => {
         this.setState({ books });
       });
+
+    BooksAPI.search('Linux')
+      .then(books => console.log(books));
   }
 
   findBook(state, id) {
     return state.books.find(book => book.id === id);
   }
 
-  updateShelf = (id, shelf) => {
-    this.setState(prevState => {
-      this.findBook(prevState, id).shelf = shelf;
-      return prevState;
-    })
+  updateShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then(data => {
+        this.setState(prevState => {
+          shelf === 'none'
+            ? this.findBook(prevState, book.id).shelf = shelf
+            : delete this.findBook(prevState, book.id).shelf;
+          return prevState;
+        })
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -41,7 +50,9 @@ class BooksApp extends React.Component {
             /> )}
           />
 
-          <Route path="/search" component={Search} />
+          <Route path="/search" render={() => (
+            <Search updateShelf = {this.updateShelf} />
+          )} />
 
         </div>
       </Router>

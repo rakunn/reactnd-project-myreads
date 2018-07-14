@@ -9,7 +9,11 @@ class BooksContainer extends Component {
   };
 
   findUniqueBookShelves = (booksProp) => {
-    return [...new Set(booksProp.map(book => book.shelf))].sort();
+    const validShelves = booksProp
+      .map(book => book.shelf)
+      .filter(shelf => shelf !== 'none');
+
+    return [...new Set(validShelves)].sort();
   };
 
   filterBooks = (books, shelf) => {
