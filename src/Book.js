@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import BookshelfChanger from './BookshelfChanger';
 
 const Book = ({ book, updateShelf }) => {
-  console.log(book)
-  const { authors, title, imageLinks, publisher } = book;
+  const { authors, title, imageLinks, publisher, shelf } = book;
   const authorsStringified = (authors && authors.join(", ")) || publisher; // sometimes we don't have authors in data set, so let's replace them with publisher
 
   return (
-    <li>
+    <li className={shelf && `book-shelf-${shelf}`}>
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={imageLinks && {backgroundImage: `url(${imageLinks.smallThumbnail})`}}></div>
@@ -25,7 +24,8 @@ const Book = ({ book, updateShelf }) => {
 };
 
 Book.propTypes = {
-  book: PropTypes.object.isRequired
+  book: PropTypes.object.isRequired,
+  updateShelf: PropTypes.func.isRequired,
 };
 
 export default Book;

@@ -12,12 +12,8 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll()
-      .then(books => {
-        this.setState({ books });
-      });
-
-    BooksAPI.search('Linux')
-      .then(books => console.log(books));
+      .then(books => this.setState({ books }))
+      .catch(err => console.log(err));
   }
 
   findBook(state, id) {
@@ -28,10 +24,18 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
       .then(data => {
         this.setState(prevState => {
-          shelf === 'none'
-            ? this.findBook(prevState, book.id).shelf = shelf
-            : delete this.findBook(prevState, book.id).shelf;
-          return prevState;
+          let newState = {...prevState};
+          const foundBook = this.findBook(newState, book.id);
+
+          if (foundBook) {
+            shelf !== 'none'
+              ? foundBook.shelf = shelf
+              : delete foundBook.shelf;
+          } else {
+            book.shelf = shelf;
+            newState.books.push(book);
+          }
+          return newState;
         })
       })
       .catch(err => console.log(err));
@@ -51,7 +55,10 @@ class BooksApp extends React.Component {
           />
 
           <Route path="/search" render={() => (
-            <Search updateShelf = {this.updateShelf} />
+            <Search
+              updateShelf = {this.updateShelf}
+              books={books}
+            />
           )} />
 
         </div>

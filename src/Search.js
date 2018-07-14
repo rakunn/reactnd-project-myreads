@@ -12,10 +12,24 @@ class Search extends Component {
     event.preventDefault();
 
     search(event.target.value)
-      .then(books => this.setState({
-        foundBooks: books
-      }))
+      .then(foundBooks => {
+        const shelvedBooks  = this.props.books;
+        const mergedBooks   = this.mergeBooks(shelvedBooks, foundBooks);
+
+        this.setState({foundBooks: mergedBooks})})
       .catch(err => console.log(err));
+  };
+
+  mergeBooks = (shelvedBooks, searchedBooks) => {
+    return searchedBooks.map(searchedBook => {
+      const foundBook = shelvedBooks.find(shelvedBook => shelvedBook.id === searchedBook.id);
+
+      if (foundBook) {
+        return foundBook;
+      }
+
+      return searchedBook;
+    })
   };
 
   render() {
