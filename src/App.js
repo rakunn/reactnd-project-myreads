@@ -47,7 +47,7 @@ class BooksApp extends React.Component {
       <Router>
         <div className="app">
 
-          <h1 className="list-books-title">📖 MyReads</h1>
+          <h1 className="list-books-title"><span role="img" aria-label="book icon">📖</span> MyReads</h1>
 
           <Route path="/" exact render={() => (
             <BooksContainer
