@@ -10,7 +10,7 @@ const Book = ({ book, updateShelf }) => {
     <li className={shelf && `book-shelf-${shelf}`}>
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={imageLinks && {backgroundImage: `url(${imageLinks.smallThumbnail})`}}></div>
+          <img className="book-cover" alt={`${title} book cover`} src={imageLinks && `${imageLinks.smallThumbnail})`}></img>
           <BookshelfChanger
             book={book}
             updateShelf = {updateShelf }
