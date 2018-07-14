@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Book from './Book';
+import Loader from 'react-loader-spinner'
 import { Link } from "react-router-dom";
 import { search } from './BooksAPI';
 
 class Search extends Component {
   state = {
-    foundBooks: []
+    foundBooks: [],
+    pendingQuery: false
   };
 
   handleChange = (event) => {
@@ -13,15 +15,17 @@ class Search extends Component {
 
     const query = event.target.value;
 
+    this.setState({pendingQuery: true});
+
     search(query)
       .then(foundBooks => {
         if (!foundBooks.error) { //checking if query returns error property
           const shelvedBooks  = this.props.books;
           const mergedBooks   = this.mergeBooks(shelvedBooks, foundBooks);
 
-          this.setState({foundBooks: mergedBooks})
+          this.setState({foundBooks: mergedBooks, pendingQuery: false})
         } else {
-          this.setState({foundBooks: []})
+          this.setState({foundBooks: [], pendingQuery: false})
         }})
       .catch(err => console.log(err));
   };
@@ -57,7 +61,13 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            { this.state.foundBooks.map(book => (
+            { this.state.pendingQuery && <Loader
+              type="TailSpin"
+              color="#00BFFF"
+              height="100"
+              width="100"
+            /> }
+            { !this.state.pendingQuery && this.state.foundBooks.map(book => (
               <Book
                 key={book.id}
                 book={book}
