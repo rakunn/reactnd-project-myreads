@@ -49,14 +49,14 @@ class BooksApp extends React.Component {
 
           <h1 className="list-books-title"><span role="img" aria-label="book icon">📖</span> MyReads</h1>
 
-          <Route path="/" exact render={() => (
+          <Route path={process.env.PUBLIC_URL + "/"} exact render={() => (
             <BooksContainer
               updateShelf = {this.updateShelf}
               books       = {books}
             /> )}
           />
 
-          <Route path="/search" render={() => (
+          <Route path={process.env.PUBLIC_URL + "/search"} render={() => (
             <Search
               updateShelf = {this.updateShelf}
               books       = {books}
