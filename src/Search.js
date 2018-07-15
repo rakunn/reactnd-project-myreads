@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Book from './Book';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
+import { DebounceInput } from 'react-debounce-input';
 import { Link } from "react-router-dom";
 import { search } from './BooksAPI';
 
@@ -56,7 +57,12 @@ class Search extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-            <input onChange={this.handleChange} type="text" placeholder="Search by title or author"/>
+            <DebounceInput
+              type="text"
+              placeholder="Search by title or author"
+              onChange={this.handleChange}
+              debounceTimeout={500}
+            />
           </div>
         </div>
         <div className="search-books-results">
