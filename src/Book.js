@@ -14,6 +14,7 @@ const Book = ({ book, updateShelf }) => {
           <BookshelfChanger
             book={book}
             updateShelf = {updateShelf }
+            elementClass={(shelf && `book-shelf-changer ${shelf}`) || 'book-shelf-changer'}
           />
         </div>
         <div className="book-title"> { title } </div>
