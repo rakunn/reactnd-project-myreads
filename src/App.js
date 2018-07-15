@@ -1,7 +1,8 @@
 import React from 'react';
 import Search from './Search';
 import BooksContainer from './BooksContainer';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import NoMatch from './NoMatch';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { getAll, update } from './BooksAPI';
 import './App.css';
 
@@ -48,20 +49,21 @@ class BooksApp extends React.Component {
         <div className="app">
 
           <h1 className="list-books-title"><span role="img" aria-label="book icon">📖</span> MyReads</h1>
-
-          <Route path={process.env.PUBLIC_URL + "/"} exact render={() => (
-            <BooksContainer
-              updateShelf = {this.updateShelf}
-              books       = {books}
-            /> )}
-          />
-
-          <Route path={process.env.PUBLIC_URL + "/search"} render={() => (
-            <Search
-              updateShelf = {this.updateShelf}
-              books       = {books}
+          <Switch>
+            <Route path={process.env.PUBLIC_URL + "/"} exact render={() => (
+              <BooksContainer
+                updateShelf = {this.updateShelf}
+                books       = {books}
+              /> )}
             />
-          )} />
+            <Route path={process.env.PUBLIC_URL + "/search"} render={() => (
+              <Search
+                updateShelf = {this.updateShelf}
+                books       = {books}
+              />
+            )} />
+            <Route component = {NoMatch}/>
+          </Switch>
 
         </div>
       </Router>
